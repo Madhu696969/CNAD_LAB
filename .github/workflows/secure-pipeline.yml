@@ -1,0 +1,25 @@
+name: Secure Pipeline Secrets
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  secret-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check secret without printing it
+        env:
+          DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}
+          APP_ENV: ${{ vars.APP_ENV }}
+        run: |
+          if [ -z "$DEMO_TOKEN" ]; then
+            echo "DEMO_TOKEN is not configured."
+            exit 1
+          fi
+          echo "DEMO_TOKEN is configured."
+          echo "APP_ENV=${APP_ENV:-not-set}"

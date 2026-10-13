@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secret-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: secret-demo
+  template:
+    metadata:
+      labels:
+        app: secret-demo
+    spec:
+      containers:
+        - name: secret-demo
+          image: busybox:1.36
+          command: ["sh", "-c", "echo 'Secret demo pod started'; sleep 3600"]
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: APP_ENV
+            - name: DEMO_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DEMO_TOKEN
