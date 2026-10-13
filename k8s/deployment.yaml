@@ -26,4 +26,4 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: app-secret
-                  key: DEMO_TOKEN
+                  key: 1245-abcde-67890-fghij
